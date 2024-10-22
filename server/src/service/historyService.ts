@@ -24,7 +24,7 @@ class HistoryService {
 
   // TODO: Define a write method that writes the updated cities array to the searchHistory.json file
   private async write(cities: City[]) {
-    return await fs.writeFile('db/searchHistory.json', JSON.stringify(cities, null, '\t'));
+    return await fs.writeFile('db/db.json', JSON.stringify(cities, null, '\t'));
   }
 
   // TODO: Define a getCities method that reads the cities from the searchHistory.json file and returns them as an array of City objects
@@ -33,7 +33,7 @@ class HistoryService {
       let parsedCities: City[];
 
       try {
-        parsedCities = JSON.parse(cities);
+        parsedCities = [].concat(JSON.parse(cities));
       } catch (err) {
         parsedCities = [];
       }
@@ -46,16 +46,16 @@ class HistoryService {
     if (!city) {
       throw new Error('The city cannot be blank');
     }
-    const newCity: City = new City(city, uuidv4()); 
+    const newCity: City = new City(city, uuidv4());
     return await this.getCities()
-    .then((cities) => {
-      if (cities.find((index) => index.name === city)) {
-        return cities;
-      }
-      return [...cities, newCity];
-    })
-    .then((updatedCities) => this.write(updatedCities))
-    .then(() => newCity);
+      .then((cities) => {
+        if (cities.find((index) => index.name === city)) {
+          return cities;
+        }
+        return [...cities, newCity];
+      })
+      .then((updatedCities) => this.write(updatedCities))
+      .then(() => newCity);
   }
 
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file

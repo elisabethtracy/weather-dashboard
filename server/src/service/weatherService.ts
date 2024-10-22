@@ -14,7 +14,7 @@ interface Coordinates {
 // TODO: Define a class for the Weather object
 class Weather {
   city: string;
-  date: string;
+  date: Dayjs | string;
   temperature: number;
   humidity: number;
   windSpeed: number;
@@ -23,7 +23,7 @@ class Weather {
   iconDescription: string;
 
 
-  constructor(city: string, date: string, temperature: number, humidity: number, windSpeed: number, description: string, icon: string, iconDescription: string,) {
+  constructor(city: string, date: Dayjs | string, temperature: number, humidity: number, windSpeed: number, description: string, icon: string, iconDescription: string,) {
     this.city = city;
     this.date = date;
     this.temperature = temperature;
@@ -67,7 +67,7 @@ class WeatherService {
   //   private reLocationData method
   private destructureLocationData(locationData: Coordinates): Coordinates {
     if (!locationData) {
-      throw new Error('City not found.');
+      throw new Error('City is not found.');
     }
     const { name, lat, lon, country, state } = locationData;
 

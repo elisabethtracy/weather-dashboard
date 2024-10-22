@@ -17,24 +17,24 @@ router.post('/', (req: Request, res: Response) => {
       HistoryService.addCity(cityName);
       res.json(data);
     });
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 
 
 
 //GET http://localhost:3001/api/history
 // GET search history
-router.get('/history', async (req: Request, res: Response) => {
+router.get('/history', async (_req: Request, res: Response) => {
   HistoryService.getCities()
-  .then((data) => {
-    return res.json(data);
-  })
-  .catch((err) => {
-    res.status(500).json(err);
-  });
+    .then((data) => {
+      return res.json(data);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
 });
 
 
@@ -43,7 +43,7 @@ router.get('/history', async (req: Request, res: Response) => {
 router.delete('/history/:id', async (req: Request, res: Response) => {
   try {
     if (!req.params.id) {
-      res.status(400).json({ error: 'City ID is required.'});
+      res.status(400).json({ error: 'City ID is required.' });
       return;
     } await HistoryService.removeCity(req.params.id);
   } catch (error) {
